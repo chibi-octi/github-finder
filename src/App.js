@@ -12,7 +12,7 @@ class App extends Component {
     loading: false,
     alert: null
   }
-  //test
+  
   // Search Github users
   searchUsers = async text => {
     this.setState({ loading: true});
