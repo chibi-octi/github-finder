@@ -10,7 +10,7 @@ import {
     GET_REPOS
 } from '../types';
 
-const GithubState = props => {
+const GithubState = (props) => {
     const initialState = {
         users: [],
         user: {},
@@ -22,6 +22,20 @@ const GithubState = props => {
 
     // Search User
 
+    const searchUsers = async text => {
+        setLoading();
+    
+        const res = await axios.get(
+          `https://api.github.com/search/users?q=${text}&client_id=${
+            process.env.REACT_APP_GITHUB_CLIENT_ID
+          }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+        );
+    
+        dispatch({
+            type: SEARCH_USERS,
+            PAYLOAD: res.data.items
+        })
+      };
 
     // Get User
 
@@ -33,7 +47,15 @@ const GithubState = props => {
 
 
     //Set Loading
+    const setLoading = () => dispatch({ type: SET_LOADING });
 
+
+
+/*  The provider we are going to wrap up the entire application
+    And pass any we want to make them available to the entire app in the value
+    {props.children} is the whole application in app.js with in <Router>
+    Note that the value is the attribute
+    ******** we need to put stuff in the value if we want component can access **** */
 
     return <GithubContext.Provider
         value = {{
@@ -49,5 +71,5 @@ const GithubState = props => {
     </GithubContext.Provider>
 }
 
-export default GithubState
+export default GithubState;
 
